@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=3 uid="uid://cspge00jacd8n"]
+
+[ext_resource type="Script" path="res://scripts/boat.gd" id="1_r4yce"]
+[ext_resource type="Script" path="res://scripts/camera_spring.gd" id="2_3kmy5"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u0t4c"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_vhhnh"]
+size = Vector3(1, 0.5, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3luoe"]
+size = Vector3(1, 0.5, 2)
+
+[node name="Boat" type="RigidBody3D"]
+collision_layer = 2
+script = ExtResource("1_r4yce")
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
+material_override = SubResource("StandardMaterial3D_u0t4c")
+mesh = SubResource("BoxMesh_vhhnh")
+
+[node name="Collider" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_3luoe")
+
+[node name="BuoyancyPoints" type="Node3D" parent="."]
+
+[node name="Top" type="Node3D" parent="BuoyancyPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+
+[node name="Right" type="Node3D" parent="BuoyancyPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0)
+
+[node name="Left" type="Node3D" parent="BuoyancyPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0)
+
+[node name="Bottom" type="Node3D" parent="BuoyancyPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+
+[node name="CameraSpring" type="SpringArm3D" parent="."]
+spring_length = 8.0
+margin = 0.5
+script = ExtResource("2_3kmy5")
+
+[node name="Camera" type="Camera3D" parent="CameraSpring"]
