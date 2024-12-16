@@ -1,3 +1,84 @@
-[gd_scene format=3 uid="uid://beyvl5tiqgu48"]
+[gd_scene load_steps=9 format=3 uid="uid://beyvl5tiqgu48"]
+
+[ext_resource type="Script" path="res://scripts/boat.gd" id="1_0j4c0"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_hoagm"]
+sky_top_color = Color(0.411333, 0.752616, 1, 1)
+sky_horizon_color = Color(0.618892, 0.793497, 0.911769, 1)
+ground_bottom_color = Color(0.120062, 0.262644, 0.435264, 1)
+ground_horizon_color = Color(0.619608, 0.792157, 0.913725, 1)
+
+[sub_resource type="Sky" id="Sky_6008p"]
+sky_material = SubResource("ProceduralSkyMaterial_hoagm")
+
+[sub_resource type="Environment" id="Environment_i0du5"]
+background_mode = 2
+sky = SubResource("Sky_6008p")
+ambient_light_color = Color(0.160816, 0.16095, 0.415275, 1)
+ambient_light_energy = 3.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u0t4c"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ky4sw"]
+size = Vector3(1, 0.5, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_okwbq"]
+size = Vector3(1, 0.5, 2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o2khe"]
+albedo_color = Color(0, 0, 0, 1)
 
 [node name="TestSceneB" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_i0du5")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.790333, -0.275502, 0.54724, 0.612646, -0.364354, 0.701363, 0.00616216, 0.889575, 0.456747, 0, 3.06511, 0)
+light_energy = 2.0
+shadow_enabled = true
+shadow_bias = 0.3
+
+[node name="Boat" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.71649, 0)
+script = ExtResource("1_0j4c0")
+
+[node name="Mesh" type="MeshInstance3D" parent="Boat"]
+material_override = SubResource("StandardMaterial3D_u0t4c")
+mesh = SubResource("BoxMesh_ky4sw")
+
+[node name="Collider" type="CollisionShape3D" parent="Boat"]
+shape = SubResource("BoxShape3D_okwbq")
+
+[node name="PhysicsRays" type="Node3D" parent="Boat"]
+
+[node name="TopLeft" type="RayCast3D" parent="Boat/PhysicsRays"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, -1)
+target_position = Vector3(0, -0.5, 0)
+collision_mask = 2
+
+[node name="TopRight" type="RayCast3D" parent="Boat/PhysicsRays"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, -1)
+target_position = Vector3(0, -0.5, 0)
+collision_mask = 2
+
+[node name="BottomRight" type="RayCast3D" parent="Boat/PhysicsRays"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 1)
+target_position = Vector3(0, -0.5, 0)
+collision_mask = 2
+
+[node name="BottomLeft" type="RayCast3D" parent="Boat/PhysicsRays"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 1)
+target_position = Vector3(0, -0.5, 0)
+collision_mask = 2
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.866025, -0.25, 0.433013, -2.98023e-08, 0.866025, 0.5, -0.5, -0.433013, 0.75, 2.47587, 3.41595, 4.20926)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+material_override = SubResource("StandardMaterial3D_o2khe")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(39.408, 1, 45.7275)
