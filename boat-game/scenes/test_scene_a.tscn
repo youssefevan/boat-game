@@ -1,3 +1,8 @@
 [gd_scene format=3 uid="uid://o1gdv60cm3l5"]
 
 [node name="TestSceneA" type="Node3D"]
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="."]
+radius = 30.0
+height = 0.244
+sides = 30
