@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://beyvl5tiqgu48"]
+[gd_scene load_steps=11 format=3 uid="uid://beyvl5tiqgu48"]
 
 [ext_resource type="PackedScene" uid="uid://cspge00jacd8n" path="res://scenes/boat.tscn" id="1_8k87o"]
 [ext_resource type="Shader" path="res://shaders/water.gdshader" id="2_3ph4n"]
@@ -19,16 +19,10 @@ sky = SubResource("Sky_6008p")
 ambient_light_color = Color(0.160816, 0.16095, 0.415275, 1)
 ambient_light_energy = 3.0
 
-[sub_resource type="BoxMesh" id="BoxMesh_pfixo"]
-size = Vector3(64, 1, 64)
+[sub_resource type="PlaneMesh" id="PlaneMesh_x6k7q"]
+size = Vector2(64, 64)
 subdivide_width = 32
 subdivide_depth = 32
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_0c3ao"]
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_sm7l1"]
-bump_strength = 18.5
-noise = SubResource("FastNoiseLite_0c3ao")
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_gnxs5"]
 noise_type = 0
@@ -47,7 +41,6 @@ shader_parameter/height_scale = 1.0
 shader_parameter/wave_speed = 1.0
 shader_parameter/wave_scale = 0.2
 shader_parameter/wave_time = 0.0
-shader_parameter/noise = SubResource("NoiseTexture2D_sm7l1")
 shader_parameter/normalmap = SubResource("NoiseTexture2D_aoqk7")
 
 [node name="TestSceneB" type="Node3D"]
@@ -56,40 +49,39 @@ shader_parameter/normalmap = SubResource("NoiseTexture2D_aoqk7")
 environment = SubResource("Environment_i0du5")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.536744, -0.635676, 0.554817, -0.836848, -0.317172, 0.446191, -0.107661, -0.703788, -0.702204, 0, 3.06511, 0)
+transform = Transform3D(0.320442, -0.706679, 0.63081, -0.898587, -0.0160366, 0.438503, -0.299765, -0.707353, -0.640151, 0, 3.06511, 0)
 shadow_enabled = true
 shadow_bias = 0.3
 
 [node name="Boat" parent="." instance=ExtResource("1_8k87o")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.305, 0)
-gravity = 20.0
 
 [node name="Water" type="CSGMesh3D" parent="."]
-mesh = SubResource("BoxMesh_pfixo")
+mesh = SubResource("PlaneMesh_x6k7q")
 material = SubResource("ShaderMaterial_5aok0")
 script = ExtResource("3_ocac5")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.09817, 2.81744, 13.4384)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.09817, 1.24727, 13.4384)
 use_collision = true
 size = Vector3(1, 6.63489, 1)
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.67543, 2.81744, -13.074)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.67543, 1.24727, -13.074)
 use_collision = true
 size = Vector3(1, 6.63489, 1)
 
 [node name="CSGBox3D3" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.2562, 2.81744, -0.668401)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.2562, 1.24727, -0.668401)
 use_collision = true
 size = Vector3(1, 6.63489, 1)
 
 [node name="CSGBox3D4" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.99715, 2.81744, 20.4469)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.99715, 1.24727, 20.4469)
 use_collision = true
 size = Vector3(1, 6.63489, 1)
 
 [node name="CSGBox3D5" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.3812, 2.81744, -12.2422)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.3812, 1.24727, -12.2422)
 use_collision = true
 size = Vector3(1, 6.63489, 1)

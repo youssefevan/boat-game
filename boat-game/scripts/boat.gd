@@ -6,6 +6,8 @@ extends RigidBody3D
 @export var drag := 0.05
 @export var angular_drag := 0.05
 
+@export var max_depth := 5.0
+
 var water_height := 0.0
 
 var submerged := false
@@ -18,10 +20,10 @@ func _physics_process(delta) -> void:
 
 # Based on this video: https://www.youtube.com/watch?v=_R2KDcAp1YQ&t=227s
 func apply_buoyancy(delta, pos) -> void:
-	var depth = $"../Water".get_height(pos) - pos.y + 0.75
+	var depth = $"../Water".get_height(pos) - pos.y + 0.33
 	if depth > 0:
 		submerged = true
-		apply_force(Vector3.UP * buoyancy * gravity * depth, pos - global_position)
+		apply_force(Vector3.UP * buoyancy * gravity * clampf(depth, -1000, max_depth), pos - global_position)
 	else:
 		submerged = false
 
@@ -34,11 +36,15 @@ func _integrate_forces(state) -> void:
 func handle_controls():
 	$CameraSpring.global_position = global_position
 	
-	if Input.is_action_pressed("steer_right"):
-		apply_torque(transform.basis.y * -2)
-	
-	if Input.is_action_pressed("steer_left"):
-		apply_torque(transform.basis.y * 2)
-	
-	if Input.is_action_pressed("throttle"):
-		apply_central_force(transform.basis.z * -10)
+	if submerged:
+		if Input.is_action_pressed("steer_right"):
+			apply_torque(transform.basis.y * -2)
+		
+		if Input.is_action_pressed("steer_left"):
+			apply_torque(transform.basis.y * 2)
+		
+		if Input.is_action_pressed("throttle"):
+			apply_central_force(transform.basis.z * 20)
+			
+		if Input.is_action_pressed("brake"):
+			apply_central_force(transform.basis.z * -5)
