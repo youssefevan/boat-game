@@ -14,6 +14,9 @@ func _ready():
 	height_scale = material.get_shader_parameter("height_scale")
 
 func _process(delta):
+	global_position.x = $"../Boat".global_position.x
+	global_position.z = $"../Boat".global_position.z
+	
 	time += delta
 	material.set_shader_parameter("wave_time", time)
 

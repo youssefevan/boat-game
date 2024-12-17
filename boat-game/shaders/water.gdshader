@@ -9,14 +9,14 @@ varying float theta;
 
 uniform vec4 primary_color : source_color;
 uniform sampler2D tex;
+uniform sampler2D normalmap;
 
-varying float vertex_distance;
-varying float vertex_distance_clamped;
+varying vec3 world_position;
 
 //uniform sampler2D noise;
 
 void vertex() {
-	vec3 world_position = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
+	world_position = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
 	
 	theta += wave_speed * wave_time;
 
@@ -30,10 +30,11 @@ void fragment() {
 	RIM = 0.2;
 	ROUGHNESS = 0.02;
 	//ALBEDO = primary_color.rgb + (0.1 * fresnel);
-	ALPHA = 0.5;
+	ALPHA = 0.8;
 
-	vec3 albedo_tex = primary_color.rgb + texture(tex, (UV*8.0+(TIME/16.0))).rgb;
+	vec3 albedo_tex = primary_color.rgb + texture(tex, (world_position.xz/8.0)+(TIME/16.0)).rgb;
 	ALBEDO = albedo_tex;
+	//NORMAL_MAP = texture(normalmap, (UV*8.0+(TIME/16.0))).rgb;
 }
 
 //void light() {

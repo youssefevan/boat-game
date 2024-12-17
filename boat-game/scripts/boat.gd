@@ -44,7 +44,7 @@ func handle_controls():
 			apply_torque(transform.basis.y * 8)
 		
 		if Input.is_action_pressed("throttle"):
-			apply_central_force(transform.basis.z * 40)
+			apply_central_force(transform.basis.z * 30)
 			
 		if Input.is_action_pressed("brake"):
 			apply_central_force(transform.basis.z * -10)
