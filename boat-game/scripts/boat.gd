@@ -20,7 +20,7 @@ func _physics_process(delta) -> void:
 
 # Based on this video: https://www.youtube.com/watch?v=_R2KDcAp1YQ&t=227s
 func apply_buoyancy(delta, pos) -> void:
-	var depth = $"../Water".get_height(pos) - pos.y + 0.33
+	var depth = $"../Water/CloseWater".get_height(pos) - pos.y + 0.33
 	if depth > 0:
 		submerged = true
 		apply_force(Vector3.UP * buoyancy * gravity * clampf(depth, -1000, max_depth), pos - global_position)

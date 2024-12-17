@@ -8,14 +8,17 @@ var height_scale : float
 var time : float
 var normal : Vector3
 
+var starting_pos
+
 func _ready():
+	starting_pos = global_position
 	wave_speed = material.get_shader_parameter("wave_speed")
 	wave_scale = material.get_shader_parameter("wave_scale")
 	height_scale = material.get_shader_parameter("height_scale")
 
 func _process(delta):
-	global_position.x = $"../Boat".global_position.x
-	global_position.z = $"../Boat".global_position.z
+	global_position.x = $"../../Boat".global_position.x + starting_pos.x
+	global_position.z = $"../../Boat".global_position.z + starting_pos.z
 	
 	time += delta
 	material.set_shader_parameter("wave_time", time)

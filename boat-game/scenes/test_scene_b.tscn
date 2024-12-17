@@ -1,16 +1,18 @@
-[gd_scene load_steps=11 format=3 uid="uid://beyvl5tiqgu48"]
+[gd_scene load_steps=17 format=3 uid="uid://beyvl5tiqgu48"]
 
 [ext_resource type="PackedScene" uid="uid://cspge00jacd8n" path="res://scenes/boat.tscn" id="1_8k87o"]
 [ext_resource type="Shader" path="res://shaders/water.gdshader" id="2_3ph4n"]
 [ext_resource type="Texture2D" uid="uid://dxqta15of4jrc" path="res://textures/water_texture_test3.png" id="3_5f6vp"]
 [ext_resource type="Script" path="res://scripts/water.gd" id="3_ocac5"]
 [ext_resource type="Texture2D" uid="uid://y0fu0uku8ns0" path="res://textures/water_texture_test3_normal_map.png" id="3_tbde1"]
+[ext_resource type="PackedScene" uid="uid://nb1hw07vmsba" path="res://models/temp_island.blend" id="6_v3i3i"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_hoagm"]
 sky_top_color = Color(0.411333, 0.752616, 1, 1)
-sky_horizon_color = Color(0.618892, 0.793497, 0.911769, 1)
+sky_horizon_color = Color(0.858824, 0.929412, 0.945098, 1)
 ground_bottom_color = Color(0.120062, 0.262644, 0.435264, 1)
-ground_horizon_color = Color(0.619608, 0.792157, 0.913725, 1)
+ground_horizon_color = Color(0.858824, 0.929412, 0.945098, 1)
+ground_curve = 0.05
 
 [sub_resource type="Sky" id="Sky_6008p"]
 sky_material = SubResource("ProceduralSkyMaterial_hoagm")
@@ -21,6 +23,11 @@ background_mode = 2
 sky = SubResource("Sky_6008p")
 ambient_light_color = Color(0.160816, 0.16095, 0.415275, 1)
 ambient_light_energy = 3.0
+fog_mode = 1
+fog_light_color = Color(0.784314, 1, 1, 1)
+fog_density = 0.5
+fog_depth_curve = 2.73207
+fog_depth_begin = 20.0
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_x6k7q"]
 size = Vector2(128, 128)
@@ -30,13 +37,40 @@ subdivide_depth = 64
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5aok0"]
 render_priority = 0
 shader = ExtResource("2_3ph4n")
-shader_parameter/height_scale = 1.0
+shader_parameter/height_scale = 2.0
 shader_parameter/wave_speed = 1.0
-shader_parameter/wave_scale = 0.2
+shader_parameter/wave_scale = 0.1
 shader_parameter/wave_time = 0.0
 shader_parameter/primary_color = Color(0, 0.14902, 0.301961, 1)
 shader_parameter/tex = ExtResource("3_5f6vp")
 shader_parameter/normalmap = ExtResource("3_tbde1")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_vsa4k"]
+size = Vector2(128, 128)
+subdivide_width = 16
+subdivide_depth = 16
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_yuj4v"]
+size = Vector2(128, 128)
+subdivide_width = 4
+subdivide_depth = 4
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ppdml"]
+render_priority = 0
+shader = ExtResource("2_3ph4n")
+shader_parameter/height_scale = 1.0
+shader_parameter/wave_speed = 1.0
+shader_parameter/wave_scale = 0.1
+shader_parameter/wave_time = 0.0
+shader_parameter/primary_color = Color(0, 0.14902, 0.301961, 1)
+shader_parameter/tex = ExtResource("3_5f6vp")
+shader_parameter/normalmap = ExtResource("3_tbde1")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_oviry"]
+size = Vector2(256, 256)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5fcx2"]
+uv1_triplanar = true
 
 [node name="TestSceneB" type="Node3D"]
 
@@ -44,39 +78,177 @@ shader_parameter/normalmap = ExtResource("3_tbde1")
 environment = SubResource("Environment_i0du5")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.831852, -0.346317, 0.43369, -0.548029, -0.389117, 0.74044, -0.087671, -0.853612, -0.513479, 0, 3.06511, 0)
+transform = Transform3D(0.276195, 0.547362, 0.790007, -0.873102, -0.200707, 0.444307, 0.401757, -0.812472, 0.422469, 0, 3.06511, 0)
 shadow_enabled = true
 shadow_bias = 0.3
 
 [node name="Boat" parent="." instance=ExtResource("1_8k87o")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.305, 0)
 
-[node name="Water" type="CSGMesh3D" parent="."]
+[node name="Water" type="Node3D" parent="."]
+
+[node name="CloseWater" type="CSGMesh3D" parent="Water"]
 mesh = SubResource("PlaneMesh_x6k7q")
 material = SubResource("ShaderMaterial_5aok0")
 script = ExtResource("3_ocac5")
 
+[node name="FarWater" type="CSGMesh3D" parent="Water"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 128, 0, 0)
+mesh = SubResource("PlaneMesh_vsa4k")
+material = SubResource("ShaderMaterial_5aok0")
+script = ExtResource("3_ocac5")
+
+[node name="VisibleOnScreenNotifier3D" type="VisibleOnScreenNotifier3D" parent="Water/FarWater"]
+
+[node name="FarWater2" type="CSGMesh3D" parent="Water"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 128, 0, 128)
+mesh = SubResource("PlaneMesh_vsa4k")
+material = SubResource("ShaderMaterial_5aok0")
+script = ExtResource("3_ocac5")
+
+[node name="VisibleOnScreenNotifier3D" type="VisibleOnScreenNotifier3D" parent="Water/FarWater2"]
+
+[node name="FarWater3" type="CSGMesh3D" parent="Water"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 128)
+mesh = SubResource("PlaneMesh_vsa4k")
+material = SubResource("ShaderMaterial_5aok0")
+script = ExtResource("3_ocac5")
+
+[node name="VisibleOnScreenNotifier3D" type="VisibleOnScreenNotifier3D" parent="Water/FarWater3"]
+
+[node name="FarWater4" type="CSGMesh3D" parent="Water"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -128, 0, 128)
+mesh = SubResource("PlaneMesh_vsa4k")
+material = SubResource("ShaderMaterial_5aok0")
+script = ExtResource("3_ocac5")
+
+[node name="VisibleOnScreenNotifier3D" type="VisibleOnScreenNotifier3D" parent="Water/FarWater4"]
+
+[node name="FarWater5" type="CSGMesh3D" parent="Water"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -128, 0, 0)
+mesh = SubResource("PlaneMesh_vsa4k")
+material = SubResource("ShaderMaterial_5aok0")
+script = ExtResource("3_ocac5")
+
+[node name="VisibleOnScreenNotifier3D" type="VisibleOnScreenNotifier3D" parent="Water/FarWater5"]
+
+[node name="FarWater6" type="CSGMesh3D" parent="Water"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -128, 0, -128)
+mesh = SubResource("PlaneMesh_vsa4k")
+material = SubResource("ShaderMaterial_5aok0")
+script = ExtResource("3_ocac5")
+
+[node name="VisibleOnScreenNotifier3D" type="VisibleOnScreenNotifier3D" parent="Water/FarWater6"]
+
+[node name="FarWater7" type="CSGMesh3D" parent="Water"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -128)
+mesh = SubResource("PlaneMesh_vsa4k")
+material = SubResource("ShaderMaterial_5aok0")
+script = ExtResource("3_ocac5")
+
+[node name="VisibleOnScreenNotifier3D" type="VisibleOnScreenNotifier3D" parent="Water/FarWater7"]
+
+[node name="FarWater8" type="CSGMesh3D" parent="Water"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 128, 0, -128)
+mesh = SubResource("PlaneMesh_vsa4k")
+material = SubResource("ShaderMaterial_5aok0")
+script = ExtResource("3_ocac5")
+
+[node name="VisibleOnScreenNotifier3D" type="VisibleOnScreenNotifier3D" parent="Water/FarWater8"]
+
+[node name="FarWater9" type="CSGMesh3D" parent="Water"]
+transform = Transform3D(3, 0, 0, 0, 1, 0, 0, 0, 3, 375.468, -0.5, 1.12597e-06)
+mesh = SubResource("PlaneMesh_yuj4v")
+material = SubResource("ShaderMaterial_ppdml")
+script = ExtResource("3_ocac5")
+
+[node name="VisibleOnScreenNotifier3D" type="VisibleOnScreenNotifier3D" parent="Water/FarWater9"]
+
+[node name="FarWater10" type="CSGMesh3D" parent="Water"]
+transform = Transform3D(3, 0, 0, 0, 1, 0, 0, 0, 3, 375.468, -0.5, 367.652)
+mesh = SubResource("PlaneMesh_yuj4v")
+material = SubResource("ShaderMaterial_ppdml")
+script = ExtResource("3_ocac5")
+
+[node name="VisibleOnScreenNotifier3D" type="VisibleOnScreenNotifier3D" parent="Water/FarWater10"]
+
+[node name="FarWater11" type="CSGMesh3D" parent="Water"]
+transform = Transform3D(3, 0, 0, 0, 1, 0, 0, 0, 3, 0, -0.5, 367.652)
+mesh = SubResource("PlaneMesh_yuj4v")
+material = SubResource("ShaderMaterial_ppdml")
+script = ExtResource("3_ocac5")
+
+[node name="VisibleOnScreenNotifier3D" type="VisibleOnScreenNotifier3D" parent="Water/FarWater11"]
+
+[node name="FarWater12" type="CSGMesh3D" parent="Water"]
+transform = Transform3D(3, 0, 0, 0, 1, 0, 0, 0, 3, -375.468, -0.5, 367.652)
+mesh = SubResource("PlaneMesh_yuj4v")
+material = SubResource("ShaderMaterial_ppdml")
+script = ExtResource("3_ocac5")
+
+[node name="VisibleOnScreenNotifier3D" type="VisibleOnScreenNotifier3D" parent="Water/FarWater12"]
+
+[node name="FarWater13" type="CSGMesh3D" parent="Water"]
+transform = Transform3D(3, 0, 0, 0, 1, 0, 0, 0, 3, -375.468, -0.5, 1.12597e-06)
+mesh = SubResource("PlaneMesh_yuj4v")
+material = SubResource("ShaderMaterial_ppdml")
+script = ExtResource("3_ocac5")
+
+[node name="VisibleOnScreenNotifier3D" type="VisibleOnScreenNotifier3D" parent="Water/FarWater13"]
+
+[node name="FarWater14" type="CSGMesh3D" parent="Water"]
+transform = Transform3D(3, 0, 0, 0, 1, 0, 0, 0, 3, -375.468, -0.5, -367.652)
+mesh = SubResource("PlaneMesh_yuj4v")
+material = SubResource("ShaderMaterial_ppdml")
+script = ExtResource("3_ocac5")
+
+[node name="VisibleOnScreenNotifier3D" type="VisibleOnScreenNotifier3D" parent="Water/FarWater14"]
+
+[node name="FarWater15" type="CSGMesh3D" parent="Water"]
+transform = Transform3D(3, 0, 0, 0, 1, 0, 0, 0, 3, 0, -0.5, -367.652)
+mesh = SubResource("PlaneMesh_yuj4v")
+material = SubResource("ShaderMaterial_ppdml")
+script = ExtResource("3_ocac5")
+
+[node name="VisibleOnScreenNotifier3D" type="VisibleOnScreenNotifier3D" parent="Water/FarWater15"]
+
+[node name="FarWater16" type="CSGMesh3D" parent="Water"]
+transform = Transform3D(3, 0, 0, 0, 1, 0, 0, 0, 3, 375.468, -0.5, -367.652)
+mesh = SubResource("PlaneMesh_yuj4v")
+material = SubResource("ShaderMaterial_ppdml")
+script = ExtResource("3_ocac5")
+
+[node name="VisibleOnScreenNotifier3D" type="VisibleOnScreenNotifier3D" parent="Water/FarWater16"]
+
+[node name="Ground" type="CSGMesh3D" parent="."]
+transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, 0, -3, 0)
+mesh = SubResource("PlaneMesh_oviry")
+material = SubResource("StandardMaterial3D_5fcx2")
+
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.09817, 1.24727, 13.4384)
 use_collision = true
-size = Vector3(1, 6.63489, 1)
+size = Vector3(1, 10, 1)
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.67543, 1.24727, -13.074)
 use_collision = true
-size = Vector3(1, 6.63489, 1)
+size = Vector3(1, 10, 1)
 
 [node name="CSGBox3D3" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.2562, 1.24727, -0.668401)
 use_collision = true
-size = Vector3(1, 6.63489, 1)
+size = Vector3(1, 10, 1)
 
 [node name="CSGBox3D4" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.99715, 1.24727, 20.4469)
 use_collision = true
-size = Vector3(1, 6.63489, 1)
+size = Vector3(1, 10, 1)
 
 [node name="CSGBox3D5" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.3812, 1.24727, -12.2422)
 use_collision = true
-size = Vector3(1, 6.63489, 1)
+size = Vector3(1, 10, 1)
+
+[node name="temp_island" parent="." instance=ExtResource("6_v3i3i")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -58.8815, 3.8147e-06, -75.9745)
