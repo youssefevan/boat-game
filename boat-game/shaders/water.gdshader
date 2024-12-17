@@ -7,23 +7,26 @@ uniform float wave_time = 0.0;
 
 varying float theta;
 
-uniform sampler2D normalmap;
-varying vec2 tex_pos;
+uniform vec4 primary_color : source_color;
+uniform sampler2D tex;
 
 void vertex() {
 	theta += wave_speed * wave_time;
 	
-	tex_pos = VERTEX.xz/2.0 + 0.5;
-	
-	// apply height map to vertices
 	float height = cos(VERTEX.x * wave_scale + theta) * sin(VERTEX.z * wave_scale + theta);
 	VERTEX.y += height * height_scale;
 }
 
 void fragment() {
-	NORMAL_MAP = texture(normalmap, tex_pos).xyz;
-	ROUGHNESS = 0.5;
-	ALBEDO = vec3(0.0, 0.15, 0.3);
+	float fresnel = sqrt(1.0 - dot(NORMAL, VIEW));
+	
+	RIM = 0.2;
+	ROUGHNESS = 0.02;
+	//ALBEDO = primary_color.rgb + (0.1 * fresnel);
+	ALPHA = 0.5;
+	
+	vec3 albedo_tex = texture(tex, (UV*128.0+TIME)).rgb * primary_color.rgb;
+	ALBEDO = albedo_tex;
 }
 
 //void light() {

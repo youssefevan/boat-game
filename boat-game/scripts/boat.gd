@@ -38,13 +38,13 @@ func handle_controls():
 	
 	if submerged:
 		if Input.is_action_pressed("steer_right"):
-			apply_torque(transform.basis.y * -2)
+			apply_torque(transform.basis.y * -4)
 		
 		if Input.is_action_pressed("steer_left"):
-			apply_torque(transform.basis.y * 2)
+			apply_torque(transform.basis.y * 4)
 		
 		if Input.is_action_pressed("throttle"):
-			apply_central_force(transform.basis.z * 20)
+			apply_central_force(transform.basis.z * 40)
 			
 		if Input.is_action_pressed("brake"):
-			apply_central_force(transform.basis.z * -5)
+			apply_central_force(transform.basis.z * -10)
