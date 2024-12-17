@@ -10,6 +10,8 @@ varying float theta;
 uniform vec4 primary_color : source_color;
 uniform sampler2D tex;
 
+//uniform sampler2D noise;
+
 void vertex() {
 	theta += wave_speed * wave_time;
 
@@ -25,7 +27,7 @@ void fragment() {
 	//ALBEDO = primary_color.rgb + (0.1 * fresnel);
 	ALPHA = 0.5;
 
-	vec3 albedo_tex = texture(tex, (UV*16.0+(TIME/4.0))).rgb + primary_color.rgb;
+	vec3 albedo_tex = primary_color.rgb + texture(tex, (UV*8.0+(TIME/16.0))).rgb;
 	ALBEDO = albedo_tex;
 }
 

@@ -2,8 +2,8 @@
 
 [ext_resource type="PackedScene" uid="uid://cspge00jacd8n" path="res://scenes/boat.tscn" id="1_8k87o"]
 [ext_resource type="Shader" path="res://shaders/water.gdshader" id="2_3ph4n"]
+[ext_resource type="Texture2D" uid="uid://dxqta15of4jrc" path="res://textures/water_texture_test3.png" id="3_5f6vp"]
 [ext_resource type="Script" path="res://scripts/water.gd" id="3_ocac5"]
-[ext_resource type="Texture2D" uid="uid://d0fhlt1aks71b" path="res://water_texture_test.png" id="3_q3u7m"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_hoagm"]
 sky_top_color = Color(0.411333, 0.752616, 1, 1)
@@ -34,7 +34,7 @@ shader_parameter/wave_speed = 1.0
 shader_parameter/wave_scale = 0.2
 shader_parameter/wave_time = 0.0
 shader_parameter/primary_color = Color(0, 0.14902, 0.301961, 1)
-shader_parameter/tex = ExtResource("3_q3u7m")
+shader_parameter/tex = ExtResource("3_5f6vp")
 
 [node name="TestSceneB" type="Node3D"]
 
