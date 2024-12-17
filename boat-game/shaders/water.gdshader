@@ -25,7 +25,7 @@ void fragment() {
 	//ALBEDO = primary_color.rgb + (0.1 * fresnel);
 	ALPHA = 0.5;
 	
-	vec3 albedo_tex = texture(tex, (UV*128.0+TIME)).rgb * primary_color.rgb;
+	vec3 albedo_tex = texture(tex, (UV*32.0+TIME)).rgb + primary_color.rgb;
 	ALBEDO = albedo_tex;
 }
 
