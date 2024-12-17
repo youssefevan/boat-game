@@ -10,12 +10,17 @@ varying float theta;
 uniform vec4 primary_color : source_color;
 uniform sampler2D tex;
 
+varying float vertex_distance;
+varying float vertex_distance_clamped;
+
 //uniform sampler2D noise;
 
 void vertex() {
+	vec3 world_position = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
+	
 	theta += wave_speed * wave_time;
 
-	float height = cos(VERTEX.x * wave_scale + theta) * sin(VERTEX.z * wave_scale + theta);
+	float height = cos(world_position.x * wave_scale + theta) * sin(world_position.z * wave_scale + theta);
 	VERTEX.y += height * height_scale;
 }
 
