@@ -1,8 +1,21 @@
-[gd_scene format=3 uid="uid://o1gdv60cm3l5"]
+[gd_scene load_steps=2 format=3 uid="uid://o1gdv60cm3l5"]
+
+[ext_resource type="PackedScene" uid="uid://cqhsvlpkydpen" path="res://scenes/player.tscn" id="1_feyah"]
 
 [node name="TestSceneA" type="Node3D"]
 
 [node name="CSGCylinder3D" type="CSGCylinder3D" parent="."]
+use_collision = true
+collision_layer = 5
+collision_mask = 5
 radius = 30.0
 height = 0.244
 sides = 30
+
+[node name="Player" parent="." instance=ExtResource("1_feyah")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.866025, -2.18557e-08, 0.5, -0.5, -3.78552e-08, 0.866025, 0, -1, -4.37114e-08, 0, 27, 0)
+shadow_enabled = true
+sky_mode = 1
