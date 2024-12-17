@@ -12,20 +12,20 @@ uniform sampler2D tex;
 
 void vertex() {
 	theta += wave_speed * wave_time;
-	
+
 	float height = cos(VERTEX.x * wave_scale + theta) * sin(VERTEX.z * wave_scale + theta);
 	VERTEX.y += height * height_scale;
 }
 
 void fragment() {
 	float fresnel = sqrt(1.0 - dot(NORMAL, VIEW));
-	
+
 	RIM = 0.2;
 	ROUGHNESS = 0.02;
 	//ALBEDO = primary_color.rgb + (0.1 * fresnel);
 	ALPHA = 0.5;
-	
-	vec3 albedo_tex = texture(tex, (UV*32.0+TIME)).rgb + primary_color.rgb;
+
+	vec3 albedo_tex = texture(tex, (UV*16.0+(TIME/4.0))).rgb + primary_color.rgb;
 	ALBEDO = albedo_tex;
 }
 
