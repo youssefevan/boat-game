@@ -1,10 +1,11 @@
-[gd_scene load_steps=17 format=3 uid="uid://beyvl5tiqgu48"]
+[gd_scene load_steps=18 format=3 uid="uid://beyvl5tiqgu48"]
 
 [ext_resource type="PackedScene" uid="uid://cspge00jacd8n" path="res://scenes/boat.tscn" id="1_8k87o"]
 [ext_resource type="Shader" path="res://shaders/water.gdshader" id="2_3ph4n"]
 [ext_resource type="Texture2D" uid="uid://dxqta15of4jrc" path="res://textures/water_texture_test3.png" id="3_5f6vp"]
 [ext_resource type="Script" path="res://scripts/water.gd" id="3_ocac5"]
 [ext_resource type="Texture2D" uid="uid://y0fu0uku8ns0" path="res://textures/water_texture_test3_normal_map.png" id="3_tbde1"]
+[ext_resource type="Texture2D" uid="uid://bv4gkx18g7g8j" path="res://textures/water_texture_test4.png" id="4_snqiu"]
 [ext_resource type="PackedScene" uid="uid://nb1hw07vmsba" path="res://models/temp_island.blend" id="6_v3i3i"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_hoagm"]
@@ -42,7 +43,7 @@ shader_parameter/wave_speed = 1.0
 shader_parameter/wave_scale = 0.1
 shader_parameter/wave_time = 0.0
 shader_parameter/primary_color = Color(0, 0.14902, 0.301961, 1)
-shader_parameter/tex = ExtResource("3_5f6vp")
+shader_parameter/tex = ExtResource("4_snqiu")
 shader_parameter/normalmap = ExtResource("3_tbde1")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_vsa4k"]
