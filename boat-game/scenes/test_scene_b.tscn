@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://beyvl5tiqgu48"]
+[gd_scene load_steps=19 format=3 uid="uid://beyvl5tiqgu48"]
 
 [ext_resource type="PackedScene" uid="uid://cspge00jacd8n" path="res://scenes/boat.tscn" id="1_8k87o"]
 [ext_resource type="Shader" path="res://shaders/water.gdshader" id="2_3ph4n"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://y0fu0uku8ns0" path="res://textures/water_texture_test3_normal_map.png" id="3_tbde1"]
 [ext_resource type="Texture2D" uid="uid://bv4gkx18g7g8j" path="res://textures/water_texture_test4.png" id="4_snqiu"]
 [ext_resource type="PackedScene" uid="uid://nb1hw07vmsba" path="res://models/temp_island.blend" id="6_v3i3i"]
+[ext_resource type="PackedScene" uid="uid://cna0bg67cmn3i" path="res://scenes/barrel.tscn" id="8_72ict"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_hoagm"]
 sky_top_color = Color(0.411333, 0.752616, 1, 1)
@@ -24,6 +25,7 @@ background_mode = 2
 sky = SubResource("Sky_6008p")
 ambient_light_color = Color(0.160816, 0.16095, 0.415275, 1)
 ambient_light_energy = 3.0
+fog_enabled = true
 fog_mode = 1
 fog_light_color = Color(0.784314, 1, 1, 1)
 fog_density = 0.5
@@ -85,6 +87,9 @@ shadow_bias = 0.3
 
 [node name="Boat" parent="." instance=ExtResource("1_8k87o")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.305, 0)
+
+[node name="Barrel" parent="." instance=ExtResource("8_72ict")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.84396, 7.73264, 7.85553)
 
 [node name="Water" type="Node3D" parent="."]
 
@@ -222,7 +227,7 @@ script = ExtResource("3_ocac5")
 [node name="VisibleOnScreenNotifier3D" type="VisibleOnScreenNotifier3D" parent="Water/FarWater16"]
 
 [node name="Ground" type="CSGMesh3D" parent="."]
-transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, 0, -3, 0)
+transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, 0, -10, 0)
 mesh = SubResource("PlaneMesh_oviry")
 material = SubResource("StandardMaterial3D_5fcx2")
 

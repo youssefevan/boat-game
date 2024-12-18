@@ -1,0 +1,38 @@
+[gd_scene load_steps=5 format=3 uid="uid://cna0bg67cmn3i"]
+
+[ext_resource type="Script" path="res://scripts/buoyant_object.gd" id="1_58mhc"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cmep0"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_e5tgv"]
+top_radius = 1.0
+bottom_radius = 1.0
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_xxe5c"]
+radius = 1.0
+
+[node name="Barrel" type="RigidBody3D"]
+mass = 0.051
+script = ExtResource("1_58mhc")
+buoyancy = 0.2
+drag = 0.1
+angular_drag = 0.1
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+material_override = SubResource("StandardMaterial3D_cmep0")
+mesh = SubResource("CylinderMesh_e5tgv")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CylinderShape3D_xxe5c")
+
+[node name="BuoyancyPoints" type="Node3D" parent="."]
+
+[node name="Point" type="Node3D" parent="BuoyancyPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7, 0, -0.7)
+
+[node name="Point2" type="Node3D" parent="BuoyancyPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7, 0, -0.7)
+
+[node name="Point3" type="Node3D" parent="BuoyancyPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.7)
